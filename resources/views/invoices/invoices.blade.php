@@ -63,8 +63,9 @@
 													<th class="border-bottom-0">Total</th>
 													<th class="border-bottom-0">Status</th>
 													<th class="border-bottom-0">Notes</th>
+                                                    <th class="border-bottom-0">operation</th>
 
-												</tr>
+                                                </tr>
 											</thead>
 											<tbody>
 												{{$i = 0}}
@@ -95,6 +96,11 @@
                                                         @endif
                                                     </td>
 													<td>$112,000</td>
+                                                    <td>
+                                                        <a class="dropdown-item"
+                                                           href="{{route('invoice.edit' , $invoice->id)}}">تعديل
+                                                            الفاتورة</a>
+                                                    </td>
 												</tr>
                                                 @endforeach
 											</tbody>

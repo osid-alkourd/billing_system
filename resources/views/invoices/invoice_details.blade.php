@@ -37,7 +37,14 @@
     @endif
 
 
-
+    @if (session()->has('Add'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ session()->get('Add') }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 
 
 
@@ -196,6 +203,26 @@
                                             <!--المرفقات-->
                                             <div class="card card-statistics">
 
+                                                <div class="card-body">
+                                                    <p class="text-danger">* صيغة المرفق pdf, jpeg ,.jpg , png </p>
+                                                    <h5 class="card-title">اضافة مرفقات</h5>
+                                                    <form method="post" action="{{route('invoice.add_file')}}"
+                                                          enctype="multipart/form-data">
+                                                        @csrf
+                                                        <div class="custom-file">
+                                                            <input type="file" class="custom-file-input" id="file_name"
+                                                                   name="file_name" required>
+                                                            <input type="hidden" id="invoice_number" name="invoice_number"
+                                                                   value="{{ $invoice->invoice_number }}">
+                                                            <input type="hidden" id="invoice_id" name="invoice_id"
+                                                                   value="{{ $invoice->id }}">
+                                                            <label class="custom-file-label" for="file_name">حدد
+                                                                المرفق</label>
+                                                        </div><br><br>
+                                                        <button type="submit" class="btn btn-primary btn-sm "
+                                                                name="uploadedFile">تاكيد</button>
+                                                    </form>
+                                                </div>
                                                 <br>
 
                                                 <div class="table-responsive mt-15">

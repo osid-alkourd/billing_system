@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\invoice_attachment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class InvoiceAttachmentController extends Controller
 {
@@ -39,7 +40,21 @@ class InvoiceAttachmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $data = $request->except('file_name');
+        $image = $request->file('file_name');
+        $file_name = $image->getClientOriginalName();
+
+        $data['Created_by'] = Auth::user()->name;
+        $data['file_name'] = $file_name;
+        invoice_attachment::create($data);
+
+       // $imageName = $request->file_name->getClientOriginalName();
+        $request->file_name->move(public_path('Attachments/'. $request->invoice_number), $file_name);
+
+
+        session()->flash('Add', 'success Added');
+        return back();
     }
 
     /**
@@ -50,7 +65,7 @@ class InvoiceAttachmentController extends Controller
      */
     public function show(invoice_attachment $invoice_attachment)
     {
-        //
+
     }
 
     /**
