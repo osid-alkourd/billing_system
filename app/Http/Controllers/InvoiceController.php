@@ -50,7 +50,7 @@ class InvoiceController extends Controller
         $data_invoice = $request->except('Section');
         $data_invoice['section_id'] = $request->input('Section');
         $data_invoice['Status'] = 'not paid';
-        $data_invoice['Value_Status'] = 2; // not paid
+        $data_invoice['Value_Status'] = 2; // not paid Invoice
 
 
         Invoice::create( $data_invoice);
