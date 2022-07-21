@@ -10,6 +10,7 @@ use App\Models\invoice_detail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
 {
@@ -140,10 +141,12 @@ class InvoiceController extends Controller
         $data_invoice_details['created_by'] = Auth::user()->name;
         invoice_detail::where('invoice_id' ,$invoice_id )->update($data_invoice_details);
 
+
         // update invoice_attachment
         invoice_attachment::where('invoice_id' ,$invoice_id )->update([
             'invoice_number' =>$request->input('invoice_number')
         ]);
+
 
 
 
@@ -159,9 +162,21 @@ class InvoiceController extends Controller
      * @param  \App\Models\Invoice  $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Invoice $invoice)
+    public function destroy(Request  $request)
     {
-        //
+        $id = $request->invoice_id;
+        $invoice = Invoice::where('id', $id)->first();
+        $Details = invoice_attachment::where('invoice_id', $id)->get();
+
+        foreach ($Details as $detail){
+            Storage::disk('public_uploads')->deleteDirectory($detail->invoice_number);
+        }
+        $invoice->forceDelete();
+       // return redirect()->route('invoices')
+
+        return redirect()->route('invoice.list')
+            ->with('delete_invoice' , 'success Deleted Invoice');
+
     }
 
 
