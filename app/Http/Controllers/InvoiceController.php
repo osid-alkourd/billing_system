@@ -100,6 +100,72 @@ class InvoiceController extends Controller
         //
     }
 
+    // show status payment for invoice
+    public function showStatusPayment(Invoice $invoice){
+        return view('invoices.status_payment_update' , [
+            'invoice' => $invoice ,
+        ]);
+    }
+
+    // to update invoice status payment
+    public function updateStatusPayment(Request $request , Invoice $invoice)
+    {
+
+        if ($request->Status === 'paid') {
+            $invoice->update([
+                'Status' => $request->Status,
+                'Value_Status' => 1,
+                'Payment_Date' => $request->Payment_Date,
+            ]);
+
+           // $invoice_details_data = $request->all();
+         //   $invoice_details_data['Value_Status'] = 1;
+            invoice_detail::create([
+                'invoice_id' => $invoice->id,
+                'invoice_number' => $invoice->invoice_number ,
+                'product' => $invoice->product ,
+                'section_id' => $invoice->section_id ,
+                'Status' => $request->Status ,
+                'Value_Status' => 1 ,
+                'Payment_Date' => $request->Payment_Date,
+                'note' => $invoice->note ,
+                'created_by' => Auth::user()->name ,
+            ]);
+
+          return redirect()->route('invoice.show' , $invoice->id)
+              ->with('successChange' , 'The Invoice Are Paid Now');
+
+        } else if($request->Status === 'Partially paid'){
+            $invoice->update([
+                'Status' => $request->Status,
+                'Value_Status' => 3,
+                'Payment_Date' => $request->Payment_Date,
+            ]);
+
+            invoice_detail::create([
+                'invoice_id' => $invoice->id,
+                'invoice_number' => $invoice->invoice_number ,
+                'product' => $invoice->product ,
+                'section_id' => $invoice->section_id ,
+                'Status' => $request->Status ,
+                'Value_Status' => 3,
+                'Payment_Date' => $request->Payment_Date,
+                'note' => $invoice->note ,
+                'created_by' => Auth::user()->name ,
+            ]);
+
+            return redirect()->route('invoice.show' , $invoice->id)
+                ->with('successChange' , 'The Invoice Are Partially paid Now');
+
+        }
+        else {
+            return redirect()->route('invoice.status_payment_show' , $invoice->id)
+                ->with('successChange' , 'Not selected status Payment');
+
+        }
+
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -166,12 +232,15 @@ class InvoiceController extends Controller
     {
         $id = $request->invoice_id;
         $invoice = Invoice::where('id', $id)->first();
-        $Details = invoice_attachment::where('invoice_id', $id)->get();
+        $detail = invoice_attachment::where('invoice_id', $id)->first();
+        Storage::disk('public_uploads')->deleteDirectory($detail->invoice_number);
 
+        /*
         foreach ($Details as $detail){
             Storage::disk('public_uploads')->deleteDirectory($detail->invoice_number);
         }
-        $invoice->forceDelete();
+        */
+        $invoice->forceDelete(); // delete it from database too
        // return redirect()->route('invoices')
 
         return redirect()->route('invoice.list')

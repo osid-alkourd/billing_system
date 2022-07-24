@@ -29,7 +29,8 @@ Route::group([
     Route::get('/download_file/{invoice_number}/{file_name}', [InvoiceDetailController::class , 'download_file'])->name('download_file');
     Route::delete('/delete_file', [InvoiceDetailController::class , 'destroy'])->name('destroy_file');
     Route::post('/add_file', [InvoiceAttachmentController::class , 'store'])->name('add_file');
-
+    Route::get('/status_payment_show/{invoice}' , [InvoiceController::class , 'showStatusPayment'])->name('status_payment_show');
+    Route::put('/status_payment_update/{invoice}' , [InvoiceController::class , 'updateStatusPayment'])->name('status_payment_update');
 });
 
  Route::get('/section/{id}' , [InvoiceController::class , 'getProducts'])
