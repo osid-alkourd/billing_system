@@ -248,11 +248,29 @@ class InvoiceController extends Controller
 
     }
 
+   public function paid_invoices(){
+      //  return $request;
+       $paid_invoices = Invoice::where('Value_Status' , 1)->get();
+       return view('invoices.paid_invoices' , compact('paid_invoices'));
+   }
+
+   public function unpaid_invoices(){
+        $unpaid_invoices = Invoice::where('Value_Status' , 2)->get();
+        return view('invoices.unpaid_invoices' , compact('unpaid_invoices'));
+   }
+
+    public function partially_paid_invoices(){
+       $partially_paid_invoices = Invoice::where('Value_Status' , 3)->get();
+       return view('invoices.partially_paid_invoices' , compact('partially_paid_invoices'));
+    }
+
 
     public function getProducts($id)
     {
         $products = Product::where("section_id", $id)->pluck("product_name", "id");
         return response()->json($products);
     }
+
+
 
 }

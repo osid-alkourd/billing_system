@@ -31,6 +31,9 @@ Route::group([
     Route::post('/add_file', [InvoiceAttachmentController::class , 'store'])->name('add_file');
     Route::get('/status_payment_show/{invoice}' , [InvoiceController::class , 'showStatusPayment'])->name('status_payment_show');
     Route::put('/status_payment_update/{invoice}' , [InvoiceController::class , 'updateStatusPayment'])->name('status_payment_update');
+    Route::get('/paid_invoices' , [InvoiceController::class , 'paid_invoices'])->name('paid_invoices');
+    Route::get('/unpaid_invoices' , [InvoiceController::class , 'unpaid_invoices'])->name('unpaid_invoices');
+    Route::get('/partially_paid_invoices' , [InvoiceController::class , 'partially_paid_invoices'])->name('partially_paid_invoices');
 });
 
  Route::get('/section/{id}' , [InvoiceController::class , 'getProducts'])
