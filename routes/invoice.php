@@ -3,6 +3,7 @@
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceDetailController;
 use App\Http\Controllers\InvoiceAttachmentController;
+use App\Http\Controllers\ArchiveController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,19 @@ Route::group([
     Route::get('/paid_invoices' , [InvoiceController::class , 'paid_invoices'])->name('paid_invoices');
     Route::get('/unpaid_invoices' , [InvoiceController::class , 'unpaid_invoices'])->name('unpaid_invoices');
     Route::get('/partially_paid_invoices' , [InvoiceController::class , 'partially_paid_invoices'])->name('partially_paid_invoices');
+
+});
+
+ //Route::resource('Archived_invoices'  , ArchiveController::class)->middleware(['auth']);
+Route::group([
+    'prefix' => '/Archived_invoices',
+    'as' => 'Archived_invoices.',
+    'middleware' => ['auth'],
+
+]  , function(){
+    Route::get('/' , [ArchiveController::class, 'index'])->name('list');
+    Route::put('/update' , [ArchiveController::class, 'update'])->name('update');
+    Route::delete('/delete' , [ArchiveController::class , 'destroy'])->name('delete');
 });
 
  Route::get('/section/{id}' , [InvoiceController::class , 'getProducts'])
