@@ -33,7 +33,9 @@
 							<li><a class="slide-item" href="{{route('invoice.paid_invoices')}}">Paid invoise</a></li>
 							<li><a class="slide-item" href="{{route('invoice.unpaid_invoices')}}">Unpaid invoise</a></li>
 							<li><a class="slide-item" href="{{route('invoice.partially_paid_invoices')}}">Partially Paid invoise</a></li>
-						</ul>
+                            <li><a class="slide-item" href="{{route('Archived_invoices.list')}}"> Archived invoices</a></li>
+
+                        </ul>
 					</li>
 
 					<li class="side-item side-item-category">Reports</li>
