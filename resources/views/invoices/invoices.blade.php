@@ -47,6 +47,16 @@
        </div>
    @endif
 
+   @if (session()->has('archive_invoice'))
+       <div class="alert alert-success alert-dismissible fade show" role="alert">
+           <strong>{{ session()->get('archive_invoice') }}</strong>
+           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+           </button>
+       </div>
+   @endif
+
+
 				<!-- row -->
 				<div class="row">
 
@@ -61,11 +71,8 @@
 						<div class="col-xl-12">
 							<div class="card mg-b-20">
 								<div class="card-header pb-0">
-									<div class="d-flex justify-content-between">
-										<h4 class="card-title mg-b-0">Bordered Table</h4>
-										<i class="mdi mdi-dots-horizontal text-gray"></i>
-									</div>
-									<p class="tx-12 tx-gray-500 mb-2">Example of Valex Bordered Table.. <a href="">Learn more</a></p>
+                                    <a href="{{route('invoice.create')}}" class="modal-effect btn btn-sm btn-primary" style="color:white"><i
+                                            class="fas fa-plus"></i>&nbsp; اضافة فاتورة</a>
 								</div>
 								<div class="card-body">
 									<div class="table-responsive">
@@ -196,6 +203,35 @@
                 </div>
 
 
+   <!-- ارشيف الفاتورة -->
+   <div class="modal fade" id="Transfer_invoice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+       <div class="modal-dialog" role="document">
+           <div class="modal-content">
+               <div class="modal-header">
+                   <h5 class="modal-title" id="exampleModalLabel">ارشفة الفاتورة</h5>
+                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                       <span aria-hidden="true">&times;</span>
+                   </button>
+                   <form action="{{ route('invoice.archive') }}" method="post">
+                    @method('delete')
+                    @csrf
+               </div>
+               <div class="modal-body">
+                   هل انت متاكد من عملية الارشفة ؟
+                   <input type="hidden" name="invoice_id" id="invoice_id" value="">
+
+
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                   <button type="submit" class="btn btn-success">تاكيد</button>
+               </div>
+               </form>
+           </div>
+       </div>
+   </div>
+
 
                 </div>
 				<!-- row closed -->
@@ -228,6 +264,16 @@
 
 <script>
     $('#delete_invoice').on('show.bs.modal', function(event) {
+        var button = $(event.relatedTarget)
+        var invoice_id = button.data('invoice_id')
+        var modal = $(this)
+        modal.find('.modal-body #invoice_id').val(invoice_id);
+    })
+</script>
+
+
+<script>
+    $('#Transfer_invoice').on('show.bs.modal', function(event) {
         var button = $(event.relatedTarget)
         var invoice_id = button.data('invoice_id')
         var modal = $(this)

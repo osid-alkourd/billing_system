@@ -61,7 +61,7 @@
             <div class="card mg-b-20">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
-                        <a href="invoices/create" class="modal-effect btn btn-sm btn-primary" style="color:white"><i
+                        <a href="{{route('invoice.create')}}" class="modal-effect btn btn-sm btn-primary" style="color:white"><i
                                 class="fas fa-plus"></i>&nbsp; اضافة فاتورة</a>
                     </div>
                 </div>
@@ -181,6 +181,35 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
                     <button type="submit" class="btn btn-danger">تاكيد</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- ارشيف الفاتورة -->
+    <div class="modal fade" id="Transfer_invoice" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ارشفة الفاتورة</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <form action="{{ route('invoice.archive') }}" method="post">
+                    @method('delete')
+                    @csrf
+                </div>
+                <div class="modal-body">
+                    هل انت متاكد من عملية الارشفة ؟
+                    <input type="hidden" name="invoice_id" id="invoice_id" value="">
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                    <button type="submit" class="btn btn-success">تاكيد</button>
                 </div>
                 </form>
             </div>

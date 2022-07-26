@@ -28,20 +28,24 @@
 @endsection
 @section('content')
 
-    @if (session()->has('archive_invoice'))
-        <script>
-            window.onload = function() {
-                notif({
-                    msg: "تم أرشفة الفاتورة بنجاح",
-                    type: "success"
-                })
-            }
 
-        </script>
-    @endif
 
     @if (session()->has('delete_invoice'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ session()->get('delete_invoice') }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 
+    @if (session()->has('restore_invoice'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{ session()->get('restore_invoice') }}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
     @endif
 
     <!-- row -->
@@ -84,9 +88,7 @@
                                     <td>{{ $invoice->invoice_Date }}</td>
                                     <td>{{ $invoice->Due_date }}</td>
                                     <td>{{ $invoice->product }}</td>
-                                    <td><a
-                                            href="{{route('invoice.show' , $invoice->id)}}">{{ $invoice->section->section_name }}</a>
-                                    </td>
+                                    <td>{{ $invoice->section->section_name }} </td>
                                     <td>{{ $invoice->Discount }}</td>
                                     <td>{{ $invoice->Rate_VAT }}</td>
                                     <td>{{ $invoice->Value_VAT }}</td>
