@@ -30,7 +30,7 @@ class ArchiveController extends Controller
             ->with('restore_invoice' , 'invoice has been successfuly restore');
     }
 
-    
+
     public function destroy(Request $request)
     {
         $invoice_id = $request->invoice_id;

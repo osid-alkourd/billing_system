@@ -264,6 +264,29 @@ class InvoiceController extends Controller
        return view('invoices.partially_paid_invoices' , compact('partially_paid_invoices'));
     }
 
+    public function archive_invoice(Request $request){
+
+
+        $invoice = Invoice::where('id' , $request->invoice_id)->first();
+        $invoice->delete();
+        //session()->flash('archive_invoice');
+        return redirect()->route('invoice.list')->with('archive_invoice' , 'success archive invoice');
+
+
+       // return $request;
+
+
+    }
+
+    // print invoice as a pdf 
+
+    public function print_invoice($id){
+        $invoice = Invoice::findOrFail($id);
+        
+        return view('invoices.print_invoice' , [
+            'invoice' => $invoice  ,
+        ]);
+    }
 
     public function getProducts($id)
     {

@@ -151,12 +151,14 @@
                                                                data-toggle="modal" data-target="#Transfer_invoice"><i
                                                                     class="text-warning fas fa-exchange-alt"></i>&nbsp;&nbsp;نقل الي
                                                                 الارشيف</a>
-                                                                 {{--
-                                                            <a class="dropdown-item" href="Print_invoice/{{ $invoice->id }}"><i
+
+                                                                {{-- Print invoice --}}
+                                                                
+                                                            <a class="dropdown-item" href="{{ route('invoice.print_invoice' , $invoice->id) }}"><i
                                                                     class="text-success fas fa-print"></i>&nbsp;&nbsp;طباعة
                                                                 الفاتورة
                                                             </a>
-                                                                --}}
+                                                                
                                                             </div>
                                                         </div>
 

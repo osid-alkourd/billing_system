@@ -35,6 +35,9 @@ Route::group([
     Route::get('/paid_invoices' , [InvoiceController::class , 'paid_invoices'])->name('paid_invoices');
     Route::get('/unpaid_invoices' , [InvoiceController::class , 'unpaid_invoices'])->name('unpaid_invoices');
     Route::get('/partially_paid_invoices' , [InvoiceController::class , 'partially_paid_invoices'])->name('partially_paid_invoices');
+    Route::delete('/archive' , [InvoiceController::class , 'archive_invoice'])->name('archive');
+    Route::get('print_invoice/{id}', [InvoiceController::class , 'print_invoice'])->name('print_invoice');
+
 
 });
 
@@ -46,7 +49,7 @@ Route::group([
 
 ]  , function(){
     Route::get('/' , [ArchiveController::class, 'index'])->name('list');
-    Route::put('/update' , [ArchiveController::class, 'update'])->name('update');
+    Route::put('/update' , [ArchiveController::class, 'update'])->name('update'); // delete archive and move it to invoice list (restore invoice)
     Route::delete('/delete' , [ArchiveController::class , 'destroy'])->name('delete');
 });
 
