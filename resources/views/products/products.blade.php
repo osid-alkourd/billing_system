@@ -37,7 +37,7 @@
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
                         <button type="button" class="button x-small" data-toggle="modal" data-target="#exampleModal"><i
-                                class="fas fa-plus"></i>&nbsp; Add Product</button><br><br>
+                                class="fas fa-plus"></i>&nbsp; {{__('Add a Product')}}</button><br><br>
                     </div>
                 </div>
                 <div class="card-body">
@@ -46,10 +46,10 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">#</th>
-                                    <th class="border-bottom-0">Product Name</th>
-                                    <th class="border-bottom-0">Section Name</th>
-                                    <th class="border-bottom-0">Notes</th>
-                                    <th class="border-bottom-0">Operation</th>
+                                    <th class="border-bottom-0">{{__('Product Name')}}</th>
+                                    <th class="border-bottom-0">{{__('Section Name')}}</th>
+                                    <th class="border-bottom-0">{{__('Notes')}}</th>
+                                    <th class="border-bottom-0">{{__('Operations')}}</th>
 
                                 </tr>
                             </thead>
@@ -68,12 +68,12 @@
                                                 data-pro_id="{{ $product->id }}"
                                                 data-section_name="{{ $product->section->section_name }}"
                                                 data-description="{{ $product->description }}" data-toggle="modal"
-                                                data-target="#edit_Product">Update</button>
+                                                data-target="#edit_Product">{{__('Update')}}</button>
 
                                             <button class="btn btn-outline-danger btn-sm "
                                                 data-pro_id="{{ $product->id }}"
                                                 data-product_name="{{ $product->product_name }}" data-toggle="modal"
-                                                data-target="#delete_Product">Delete</button>
+                                                data-target="#delete_Product">{{__('Delete')}}</button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -99,29 +99,29 @@
                         @csrf
                         <div class="modal-body">
                             <div class="form-group" style="text-align: left;">
-                                <label for="exampleInputEmail1">Product Name</label>
+                                <label for="exampleInputEmail1">{{__('Product Name')}}</label>
                                 <input type="text" class="form-control" id="product_name" name="product_name" required>
 
                             </div>
 
                             <div class="form-group" style="text-align: left;">
-                                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Section</label>
+                                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">{{__('Section')}}</label>
                                 <select name="section_id" id="section_id" class="form-control" required>
-                                    <option value="" selected disabled> --Select A Section--</option>
+                                    <option value="" selected disabled> --{{__('Select Section')}}--</option>
                                     @foreach ($sections as $section)
                                         <option value="{{ $section->id }}">{{ $section->section_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
                             <div class="form-group" style="text-align: left;">
-                                <label for="exampleFormControlTextarea1">Notes</label>
+                                <label for="exampleFormControlTextarea1">{{__('Notes')}}</label>
                                 <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
-                            <button type="submit" class="btn btn-success">submit</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+                            <button type="submit" class="btn btn-success">{{__('Submit')}}</button>
 
                         </div>
                     </form>
@@ -135,7 +135,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Product Update</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">{{__('Product Update')}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -146,7 +146,7 @@
                         <div class="modal-body">
 
                             <div class="form-group" style="text-align: left;">
-                                <label for="title">Product Name</label>
+                                <label for="title">{{__('Product Name')}}</label>
 
                                 <input type="hidden" class="form-control" name="pro_id" id="pro_id"
                                     value="">
@@ -155,7 +155,7 @@
                             </div>
 
                             <div class="form-group" style="text-align: left;">
-                                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Section</label>
+                                <label class="my-1 mr-2" for="inlineFormCustomSelectPref">{{__('Section')}}</label>
                                 <select name="section_name" id="section_name" class="custom-select my-1 mr-sm-2"
                                     required>
                                     @foreach ($sections as $section)
@@ -165,14 +165,14 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="des">Notes</label>
+                                <label for="des">{{__('Notes')}}</label>
                                 <textarea name="description" cols="20" rows="5" id='description' class="form-control"></textarea>
                             </div>
 
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">{{__('Update')}}</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
                         </div>
                     </form>
                 </div>
@@ -186,7 +186,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Delete Product</h5>
+                        <h5 class="modal-title">{{__('Delete Product')}}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -200,8 +200,8 @@
                             <input class="form-control" name="product_name" id="product_name" type="text" readonly>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancle</button>
+                            <button type="submit" class="btn btn-danger">{{__('Delete')}}</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancle')}}</button>
                         </div>
                     </form>
                 </div>

@@ -8,15 +8,14 @@
     <link href="{{ URL::asset('assets/plugins/custom-scroll/jquery.mCustomScrollbar.css') }}" rel="stylesheet">
 @endsection
 @section('title')
-    تفاصيل فاتورة
-@stop
+    {{__('invoice details')}}@stop
 @section('page-header')
     <!-- breadcrumb -->
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">قائمة الفواتير</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
-                    تفاصيل الفاتورة</span>
+                <h4 class="content-title mb-0 my-auto">{{__('Invoicing list')}}</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/
+                    {{__('invoice details')}}  </span>
             </div>
         </div>
 
@@ -80,10 +79,10 @@
                                     <div class="tabs-menu1">
                                         <!-- Tabs -->
                                         <ul class="nav panel-tabs main-nav-line">
-                                            <li><a href="#tab4" class="nav-link active" data-toggle="tab">معلومات
-                                                    الفاتورة</a></li>
-                                            <li><a href="#tab5" class="nav-link" data-toggle="tab">حالات الدفع</a></li>
-                                            <li><a href="#tab6" class="nav-link" data-toggle="tab">المرفقات</a></li>
+                                            <li><a href="#tab4" class="nav-link active" data-toggle="tab">
+                                                {{__('Invoice information')}}    </a></li>
+                                            <li><a href="#tab5" class="nav-link" data-toggle="tab">{{__('Payment statuses')}}</a></li>
+                                            <li><a href="#tab6" class="nav-link" data-toggle="tab">{{__('attachments')}}</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -97,36 +96,36 @@
                                                 <table class="table table-striped" style="text-align:center">
                                                     <tbody>
                                                     <tr>
-                                                        <th scope="row">رقم الفاتورة</th>
+                                                        <th scope="row">{{__('Invoice Number')}}</th>
                                                         <td>{{ $invoice->invoice_number }}</td>
-                                                        <th scope="row">تاريخ الاصدار</th>
+                                                        <th scope="row">{{__('Invoice Date')}}</th>
                                                         <td>{{ $invoice->invoice_Date }}</td>
-                                                        <th scope="row">تاريخ الاستحقاق</th>
+                                                        <th scope="row">{{__('due date')}}</th>
                                                         <td>{{ $invoice->Due_date }}</td>
-                                                        <th scope="row">القسم</th>
+                                                        <th scope="row">{{__('Section')}}</th>
                                                         <td>{{ $invoice->section->section_name }}</td>
                                                     </tr>
 
                                                     <tr>
-                                                        <th scope="row">المنتج</th>
+                                                        <th scope="row">{{__('Product')}}</th>
                                                         <td>{{ $invoice->product }}</td>
-                                                        <th scope="row">مبلغ التحصيل</th>
+                                                        <th scope="row">{{__('Amount_collection')}}</th>
                                                         <td>{{ $invoice->Amount_collection }}</td>
-                                                        <th scope="row">مبلغ العمولة</th>
+                                                        <th scope="row">{{__('Commission_amount')}}</th>
                                                         <td>{{ $invoice->Amount_Commission }}</td>
-                                                        <th scope="row">الخصم</th>
+                                                        <th scope="row">{{__('Discount')}}</th>
                                                         <td>{{ $invoice->Discount }}</td>
                                                     </tr>
 
 
                                                     <tr>
-                                                        <th scope="row">نسبة الضريبة</th>
+                                                        <th scope="row"> {{__('tax_rate')}}</th>
                                                         <td>{{ $invoice->Rate_VAT }}</td>
-                                                        <th scope="row">قيمة الضريبة</th>
+                                                        <th scope="row">{{__('tax_value')}}</th>
                                                         <td>{{ $invoice->Value_VAT }}</td>
-                                                        <th scope="row">الاجمالي مع الضريبة</th>
+                                                        <th scope="row">{{__('Total')}}</th>
                                                         <td>{{ $invoice->Total }}</td>
-                                                        <th scope="row">الحالة الحالية</th>
+                                                        <th scope="row">{{__('current statuse')}}</th>
 
                                                         @if ($invoice->Value_Status == 1)
                                                             <td><span
@@ -144,7 +143,7 @@
                                                     </tr>
 
                                                     <tr>
-                                                        <th scope="row">ملاحظات</th>
+                                                        <th scope="row">{{__("Notes")}}</th>
                                                         <td>{{ $invoice->note }}</td>
                                                     </tr>
                                                     </tbody>
@@ -160,14 +159,14 @@
                                                     <thead>
                                                     <tr class="text-dark">
                                                         <th>#</th>
-                                                        <th>رقم الفاتورة</th>
-                                                        <th>نوع المنتج</th>
-                                                        <th>القسم</th>
-                                                        <th>حالة الدفع</th>
-                                                        <th>تاريخ الدفع </th>
-                                                        <th>ملاحظات</th>
-                                                        <th>تاريخ الاضافة </th>
-                                                        <th>المستخدم</th>
+                                                        <th>{{__('Invoice Number')}}</th>
+                                                        <th>{{__('Product type')}}</th>
+                                                        <th>{{__('Section')}}</th>
+                                                        <th>{{__('Status')}}</th>
+                                                        <th>{{__('Payment Date')}} </th>
+                                                        <th>{{__('Notes')}}</th>
+                                                        <th>{{__('Invoice Date')}} </th>
+                                                        <th>{{__('user')}}</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -212,7 +211,7 @@
 
                                                 <div class="card-body">
                                                     <p class="text-danger">* صيغة المرفق pdf, jpeg ,.jpg , png </p>
-                                                    <h5 class="card-title">اضافة مرفقات</h5>
+                                                    <h5 class="card-title">{{__('Add attachments')}}</h5>
                                                     <form method="post" action="{{route('invoice.add_file')}}"
                                                           enctype="multipart/form-data">
                                                         @csrf
@@ -223,11 +222,11 @@
                                                                    value="{{ $invoice->invoice_number }}">
                                                             <input type="hidden" id="invoice_id" name="invoice_id"
                                                                    value="{{ $invoice->id }}">
-                                                            <label class="custom-file-label" for="file_name">حدد
-                                                                المرفق</label>
+                                                            <label class="custom-file-label" for="file_name">
+                                                              {{__('Select Section')}}</label>
                                                         </div><br><br>
                                                         <button type="submit" class="btn btn-primary btn-sm "
-                                                                name="uploadedFile">تاكيد</button>
+                                                                name="uploadedFile">{{__('Confirm')}}</button>
                                                     </form>
                                                 </div>
                                                 <br>
@@ -238,10 +237,10 @@
                                                         <thead>
                                                         <tr class="text-dark">
                                                             <th scope="col">م</th>
-                                                            <th scope="col">اسم الملف</th>
-                                                            <th scope="col">قام بالاضافة</th>
-                                                            <th scope="col">تاريخ الاضافة</th>
-                                                            <th scope="col">العمليات</th>
+                                                            <th scope="col">{{__('file name')}}</th>
+                                                            <th scope="col">{{__('user')}} </th>
+                                                            <th scope="col">{{__('Invoice Date')}}</th>
+                                                            <th scope="col">{{__('Operations')}}</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -264,7 +263,7 @@
                                                                        href="{{route('invoice.download_file' , [$invoice->invoice_number ,$attachment->file_name] )}}"
                                                                        role="button"><i
                                                                             class="fas fa-download"></i>&nbsp;
-                                                                        تحميل</a>
+                                                                        {{__('Download')}}</a>
 
 
                                                                         <button class="btn btn-outline-danger btn-sm"
@@ -272,7 +271,7 @@
                                                                                 data-file_name="{{ $attachment->file_name }}"
                                                                                 data-invoice_number="{{ $attachment->invoice_number }}"
                                                                                 data-file_id="{{ $attachment->id }}"
-                                                                                data-target="#delete_file">حذف</button>
+                                                                                data-target="#delete_file">{{__('Delete')}}</button>
 
 
                                                                 </td>
@@ -304,7 +303,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">حذف المرفق</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('delete attachment')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -315,7 +314,7 @@
                     @method('delete')
                     <div class="modal-body">
                         <p class="text-center">
-                        <h6 style="color:red"> هل انت متاكد من عملية حذف المرفق ؟</h6>
+                        <h6 style="color:red">{{__('Are you sure to delete the attachment?')}}</h6>
                         </p>
 
                         <input type="hidden" name="file_id" id="file_id" value="">
@@ -324,8 +323,8 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">الغاء</button>
-                        <button type="submit" class="btn btn-danger">تاكيد</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">{{__('Cancle')}}</button>
+                        <button type="submit" class="btn btn-danger">{{__('Confirm')}}</button>
                     </div>
                 </form>
             </div>

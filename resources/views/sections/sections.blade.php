@@ -18,10 +18,10 @@
 				<div class="breadcrumb-header justify-content-between">
 					<div class="my-auto">
 						<div class="d-flex">
-							<h4 class="content-title mb-0 my-auto">Setting</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ Sections</span>
+							<h4 class="content-title mb-0 my-auto">{{__('Setting')}}</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ Sections</span>
 						</div>
 					</div>
-					
+
 				</div>
 				<!-- breadcrumb -->
 @endsection
@@ -36,14 +36,14 @@
 
 				@if($errors->any())
                       <div  class="alert alert-danger">
-						  
+
 						<ul>
 							@foreach($errors->all() as $error)
 							<li>{{ $error }}</li>
 							@endforeach
 						</ul>
-					  
-					 </div>  
+
+					 </div>
 				@endif
 
 
@@ -53,7 +53,7 @@
 						<div class="card mg-b-20">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-between">
-										<a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">Add Section</a>								
+										<a class="modal-effect btn btn-outline-primary btn-block" data-effect="effect-scale" data-toggle="modal" href="#modaldemo8">{{__('Add a section')}}</a>
 								</div>
 							</div>
 							<div class="card-body">
@@ -62,14 +62,14 @@
 										<thead>
 											<tr>
 												<th class="border-bottom-0">#</th>
-												<th class="border-bottom-0">Section Name </th>
-												<th class="border-bottom-0">Notes</th>
-												<th class="border-bottom-0">Operations</th>
-												
+												<th class="border-bottom-0">{{__('Section Name')}} </th>
+												<th class="border-bottom-0">{{__('Notes')}}</th>
+												<th class="border-bottom-0">{{__('Operations')}}</th>
+
 
 											</tr>
 										</thead>
-										<tbody>		
+										<tbody>
 											<?php $i = 0; ?>
 											@foreach ($sections as $section )
 				                                {{ $i++ }}
@@ -77,7 +77,7 @@
 												<td>{{ $i }}</td>
 												<td>{{ $section->section_name }}</td>
 												<td>{{ $section->description}}</td>
-												
+
 												<td>
 
                                                     <a class="modal-effect btn btn-sm btn-info" data-effect="effect-scale"
@@ -92,7 +92,7 @@
                                                </td>
 											</tr>
 
-										  @endforeach		
+										  @endforeach
 										</tbody>
 									</table>
 								</div>
@@ -109,29 +109,29 @@
 							</div>
 							<div class="modal-body">
 							 <form action="{{ route('section.store')}}" method="post">
-								@csrf	
+								@csrf
 								<div class="form-group" style="text-align: left;">
-									<label for="section_name" >Section Name</label>
+									<label for="section_name" >{{__('Section Name')}}</label>
 									<input type="text" class="form-control" id="section_name" name="section_name">
 								</div>
 
 								<div class="mb-3" style="text-align: left;">
-									<label for="description" class="form-label">Any Notes</label>
+									<label for="description" class="form-label">{{__('Any Notes')}}</label>
 									<textarea class="form-control" id="description" name="description" rows="3"></textarea>
 								</div>
 								<div class="modal-footer">
-									<button class="btn ripple btn-secondary" data-dismiss="modal" type="button">Close</button>
-									<button class="btn ripple btn-primary" type="submit">Submit</button>
+									<button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{__('Close')}}</button>
+									<button class="btn ripple btn-primary" type="submit">{{__('Submit')}}</button>
 
 								</div>
-						     </form> 
+						     </form>
 							</div>
-							
+
 						</div>
 					</div>
 				</div>
 				<!-- row closed -->
-                  
+
 				<!-- edit -->
 
 				<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -139,7 +139,7 @@
 			   <div class="modal-dialog" role="document">
 				   <div class="modal-content">
 					   <div class="modal-header" >
-						   <h5 class="modal-title" id="exampleModalLabel" style="text-align: left;">Section Update</h5>
+						   <h5 class="modal-title" id="exampleModalLabel" style="text-align: left;">{{__('Update Section')}}</h5>
 						   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							   <span aria-hidden="true">&times;</span>
 						   </button>
@@ -147,22 +147,22 @@
 					   <div class="modal-body">
 
 						   <form action="{{ route('section.update') }}" method="post" autocomplete="off">
-							    
+
 						     	@csrf
 								@method('PUT')
 							   <div class="form-group" style="text-align: left;">
 								   <input type="hidden" name="id" id="id" value="">
-								   <label for="recipient-name" class="col-form-label">Section Name</label>
+								   <label for="recipient-name" class="col-form-label">{{__('Section Name')}}</label>
 								   <input class="form-control" name="section_name" id="section_name" type="text">
 							   </div>
 							   <div class="form-group" style="text-align: left;">
-								   <label for="message-text" class="col-form-label">Notes</label>
+								   <label for="message-text" class="col-form-label">{{__('Notes')}}</label>
 								   <textarea class="form-control" id="description" name="description"></textarea>
 							   </div>
 					   </div>
 					   <div class="modal-footer">
-						   <button type="submit" class="btn btn-primary">Confirm</button>
-						   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						   <button type="submit" class="btn btn-primary">{{__('Confirm')}}</button>
+						   <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
 					   </div>
 					   </form>
 				   </div>
@@ -174,21 +174,21 @@
 			<div class="modal-dialog modal-dialog-centered" role="document">
 				<div class="modal-content modal-content-demo">
 					<div class="modal-header">
-						<h6 class="modal-title">Section Delete</h6><button aria-label="Close" class="close" data-dismiss="modal"
+						<h6 class="modal-title">{{__('Delete Section')}}</h6><button aria-label="Close" class="close" data-dismiss="modal"
 																	   type="button"><span aria-hidden="true">&times;</span></button>
 					</div>
 					<form action="{{ route('section.delete') }}" method="post">
 						@csrf
 						@method('delete')
-						
+
 						<div class="modal-body" style="text-align: left;">
-							<p>Are you sure of the deletion process?</p><br>
+							<p>{{__('Are you sure to Delete ?')}}</p><br>
 							<input type="hidden" name="id" id="id" value="">
 							<input class="form-control" name="section_name" id="section_name" type="text" readonly>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="submit" class="btn btn-danger">Confirm</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Close')}}</button>
+							<button type="submit" class="btn btn-danger">{{__('Confirm')}}</button>
 						</div>
 				</div>
 				</form>

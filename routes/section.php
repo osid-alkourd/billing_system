@@ -12,7 +12,7 @@ Route::get('/create/section' , [SectionController::class  , 'create'] )
 Route::group([
     'prefix' => '/section',
     'as' => 'section.',
-    'middleware' => ['auth'],
+    'middleware' => ['auth' , 'locale'],
 ] , function(){
 
     Route::get('/' , [SectionController::class  , 'index'])->name('list');

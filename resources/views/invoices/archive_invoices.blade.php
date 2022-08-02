@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-    ارشيف الفواتير
+    {{__('Archived invoices')}}
 @stop
 @section('css')
     <!-- Internal Data table css -->
@@ -18,8 +18,9 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">الفواتير</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ أرشيف
-                    الفواتير</span>
+                <h4 class="content-title mb-0 my-auto">{{__('invoices')}}</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">
+                 / {{__('Archived invoices')}}
+                </span>
             </div>
         </div>
 
@@ -64,18 +65,19 @@
                             <thead>
                             <tr>
                                 <th class="border-bottom-0">#</th>
-                                <th class="border-bottom-0">رقم الفاتورة</th>
-                                <th class="border-bottom-0">تاريخ القاتورة</th>
-                                <th class="border-bottom-0">تاريخ الاستحقاق</th>
-                                <th class="border-bottom-0">المنتج</th>
-                                <th class="border-bottom-0">القسم</th>
-                                <th class="border-bottom-0">الخصم</th>
-                                <th class="border-bottom-0">نسبة الضريبة</th>
-                                <th class="border-bottom-0">قيمة الضريبة</th>
-                                <th class="border-bottom-0">الاجمالي</th>
-                                <th class="border-bottom-0">الحالة</th>
-                                <th class="border-bottom-0">ملاحظات</th>
-                                <th class="border-bottom-0">العمليات</th>
+                                <th class="border-bottom-0">{{ __('Invoice Number') }} </th>
+                                <th class="border-bottom-0">{{ __('Invoice Date') }}</th>
+                                <th class="border-bottom-0">{{ __('due date') }}</th>
+                                <th class="border-bottom-0">{{ __('Product') }}</th>
+                                <th class="border-bottom-0">{{ __('Section') }}</th>
+                                <th class="border-bottom-0">{{ __('Amount_collection') }}</th>
+                                <th class="border-bottom-0">{{ __('Discount') }}</th>
+                                <th class="border-bottom-0">{{ __('tax_rate') }}</th>
+                                <th class="border-bottom-0">{{ __('tax_value') }}</th>
+                                <th class="border-bottom-0">{{ __('Total') }}</th>
+                                <th class="border-bottom-0">{{ __('Status') }}</th>
+                                <th class="border-bottom-0">{{ __('Notes') }}</th>
+                                <th class="border-bottom-0">{{ __('operation') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -109,16 +111,15 @@
                                         <div class="dropdown">
                                             <button aria-expanded="false" aria-haspopup="true"
                                                     class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
-                                                    type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
+                                                    type="button">{{__('Operations')}}<i class="fas fa-caret-down ml-1"></i></button>
                                             <div class="dropdown-menu tx-13">
                                                 <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}"
                                                    data-toggle="modal" data-target="#Transfer_invoice"><i
-                                                        class="text-warning fas fa-exchange-alt"></i>&nbsp;&nbsp;نقل الي
-                                                    الفواتير</a>
+                                                        class="text-warning fas fa-exchange-alt"></i>&nbsp;&nbsp;{{__('Move to invoice')}}</a>
                                                 <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}"
                                                    data-toggle="modal" data-target="#delete_invoice"><i
-                                                        class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف
-                                                    الفاتورة</a>
+                                                        class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;
+                                                    {{__('Delete invoice')}}</a>
                                             </div>
                                         </div>
 
@@ -141,7 +142,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">حذف الفاتورة</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('Delete invoice')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -150,13 +151,13 @@
                      @csrf
                 </div>
                 <div class="modal-body">
-                    هل انت متاكد من عملية الحذف ؟
+                    {{__('Are you sure to Delete')}}
                     <input type="hidden" name="invoice_id" id="invoice_id" value="">
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
-                    <button type="submit" class="btn btn-danger">تاكيد</button>
+                    <button type="submit" class="btn btn-danger"> {{__('Confirm')}}</button>
                 </div>
                 </form>
             </div>
@@ -169,7 +170,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">الغاء ارشفة الفاتورة</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('Cancel archiving invoice')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -178,13 +179,13 @@
                      @csrf
                 </div>
                 <div class="modal-body">
-                    هل انت متاكد من عملية الغاء الارشفة ؟
+                    {{__('Are you sure about the process of canceling the archive ?')}}
                     <input type="hidden" name="invoice_id" id="invoice_id" value="">
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
-                    <button type="submit" class="btn btn-success">تاكيد</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancle')}}</button>
+                    <button type="submit" class="btn btn-success">{{__('Confirm')}}</button>
                 </div>
                 </form>
             </div>

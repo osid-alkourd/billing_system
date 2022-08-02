@@ -7,9 +7,12 @@ use App\Models\invoice_attachment;
 use App\Models\Product;
 use App\Models\Section;
 use App\Models\invoice_detail;
+use App\Models\User;
+use App\Notifications\AddInvoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Storage;
 
 class InvoiceController extends Controller
@@ -22,8 +25,8 @@ class InvoiceController extends Controller
     public function index()
     {
         $invoices = Invoice::all();
-        return view('invoices.invoices' , [
-            'invoices' => $invoices ,
+        return view('invoices.invoices', [
+            'invoices' => $invoices,
         ]);
     }
 
@@ -35,15 +38,15 @@ class InvoiceController extends Controller
     public function create()
     {
         $sections = Section::all();
-        return view('invoices.add_invoice',[
-            'sections' => $sections ,
+        return view('invoices.add_invoice', [
+            'sections' => $sections,
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -54,14 +57,12 @@ class InvoiceController extends Controller
         $data_invoice['Value_Status'] = 2; // not paid Invoice
 
 
-        Invoice::create( $data_invoice);
+        $invoice = Invoice::create($data_invoice);
 
-       $invoice_id = Invoice::latest()->first()->id;
-
-        $data_invoice_details = $request->only('invoice_number' , 'product' , 'note');
+        $data_invoice_details = $request->only('invoice_number', 'product', 'note');
         $data_invoice_details['section_id'] = $request->input('Section');
-        $data_invoice_details['invoice_id'] =  $invoice_id ;
-        $data_invoice_details['Status'] =  'Not Paid' ;
+        $data_invoice_details['invoice_id'] = $invoice->id;
+        $data_invoice_details['Status'] = 'Not Paid';
         $data_invoice_details['Value_Status'] = 2; // not paid
         $data_invoice_details['created_by'] = Auth::user()->name;
 
@@ -70,9 +71,10 @@ class InvoiceController extends Controller
 
         if ($request->hasFile('pic')) {
 
-            $invoice_id = Invoice::latest()->first()->id;
-            $data_invoice_attachment= $request->only('invoice_number');
-            $data_invoice_attachment['invoice_id'] =  $invoice_id ;
+           // $invoice_id = Invoice::latest()->first()->id;
+            $invoice_id = $invoice->id;
+            $data_invoice_attachment = $request->only('invoice_number');
+            $data_invoice_attachment['invoice_id'] = $invoice_id;
             $data_invoice_attachment['Created_by'] = Auth::user()->name;
 
             $image = $request->file('pic');
@@ -80,11 +82,14 @@ class InvoiceController extends Controller
 
             invoice_attachment::create($data_invoice_attachment);
 
-            $request->pic->move(public_path('Attachments/' .  $data_invoice_attachment['invoice_number']), $data_invoice_attachment['file_name']);
+            $request->pic->move(public_path('Attachments/' . $data_invoice_attachment['invoice_number']), $data_invoice_attachment['file_name']);
         }
 
+
+
+
         return redirect()->route('invoice.create')->
-        with('success' , 'Invoices Success Added');
+        with('success', 'Invoices Success Added');
 
 
     }
@@ -92,7 +97,7 @@ class InvoiceController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Invoice  $invoice
+     * @param \App\Models\Invoice $invoice
      * @return \Illuminate\Http\Response
      */
     public function show(Invoice $invoice)
@@ -101,14 +106,15 @@ class InvoiceController extends Controller
     }
 
     // show status payment for invoice
-    public function showStatusPayment(Invoice $invoice){
-        return view('invoices.status_payment_update' , [
-            'invoice' => $invoice ,
+    public function showStatusPayment(Invoice $invoice)
+    {
+        return view('invoices.status_payment_update', [
+            'invoice' => $invoice,
         ]);
     }
 
     // to update invoice status payment
-    public function updateStatusPayment(Request $request , Invoice $invoice)
+    public function updateStatusPayment(Request $request, Invoice $invoice)
     {
 
         if ($request->Status === 'paid') {
@@ -118,24 +124,24 @@ class InvoiceController extends Controller
                 'Payment_Date' => $request->Payment_Date,
             ]);
 
-           // $invoice_details_data = $request->all();
-         //   $invoice_details_data['Value_Status'] = 1;
+            // $invoice_details_data = $request->all();
+            //   $invoice_details_data['Value_Status'] = 1;
             invoice_detail::create([
                 'invoice_id' => $invoice->id,
-                'invoice_number' => $invoice->invoice_number ,
-                'product' => $invoice->product ,
-                'section_id' => $invoice->section_id ,
-                'Status' => $request->Status ,
-                'Value_Status' => 1 ,
+                'invoice_number' => $invoice->invoice_number,
+                'product' => $invoice->product,
+                'section_id' => $invoice->section_id,
+                'Status' => $request->Status,
+                'Value_Status' => 1,
                 'Payment_Date' => $request->Payment_Date,
-                'note' => $invoice->note ,
-                'created_by' => Auth::user()->name ,
+                'note' => $invoice->note,
+                'created_by' => Auth::user()->name,
             ]);
 
-          return redirect()->route('invoice.show' , $invoice->id)
-              ->with('successChange' , 'The Invoice Are Paid Now');
+            return redirect()->route('invoice.show', $invoice->id)
+                ->with('successChange', 'The Invoice Are Paid Now');
 
-        } else if($request->Status === 'Partially paid'){
+        } else if ($request->Status === 'Partially paid') {
             $invoice->update([
                 'Status' => $request->Status,
                 'Value_Status' => 3,
@@ -144,23 +150,22 @@ class InvoiceController extends Controller
 
             invoice_detail::create([
                 'invoice_id' => $invoice->id,
-                'invoice_number' => $invoice->invoice_number ,
-                'product' => $invoice->product ,
-                'section_id' => $invoice->section_id ,
-                'Status' => $request->Status ,
+                'invoice_number' => $invoice->invoice_number,
+                'product' => $invoice->product,
+                'section_id' => $invoice->section_id,
+                'Status' => $request->Status,
                 'Value_Status' => 3,
                 'Payment_Date' => $request->Payment_Date,
-                'note' => $invoice->note ,
-                'created_by' => Auth::user()->name ,
+                'note' => $invoice->note,
+                'created_by' => Auth::user()->name,
             ]);
 
-            return redirect()->route('invoice.show' , $invoice->id)
-                ->with('successChange' , 'The Invoice Are Partially paid Now');
+            return redirect()->route('invoice.show', $invoice->id)
+                ->with('successChange', 'The Invoice Are Partially paid Now');
 
-        }
-        else {
-            return redirect()->route('invoice.status_payment_show' , $invoice->id)
-                ->with('successChange' , 'Not selected status Payment');
+        } else {
+            return redirect()->route('invoice.status_payment_show', $invoice->id)
+                ->with('successChange', 'Not selected status Payment');
 
         }
 
@@ -169,30 +174,30 @@ class InvoiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Invoice  $invoice
+     * @param \App\Models\Invoice $invoice
      * @return \Illuminate\Http\Response
      */
     public function edit(Invoice $invoice)
     {
         $sections = Section::all();
-        return view('invoices.invoice_edit' , [
-            'invoice' => $invoice ,
-            'sections' =>$sections ,
+        return view('invoices.invoice_edit', [
+            'invoice' => $invoice,
+            'sections' => $sections,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Invoice  $invoice
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Invoice $invoice
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
         // invoice id
         $invoice_id = $request->invoice_id;
-       // $invoice_number = $request->input('invoice_number');
+        // $invoice_number = $request->input('invoice_number');
         // update invoice table
         $data_invoice = $request->except('Section');
         $data_invoice['section_id'] = $request->input('Section');
@@ -200,21 +205,18 @@ class InvoiceController extends Controller
         $invoice->update($data_invoice);
 
         // update invoice_details table
-        $data_invoice_details = $request->only('invoice_number' , 'product' , 'note' , 'invoive_id');
+        $data_invoice_details = $request->only('invoice_number', 'product', 'note', 'invoive_id');
         $data_invoice_details['section_id'] = $request->input('Section');
-        $data_invoice_details['Status'] =  'Not Paid' ;
+        $data_invoice_details['Status'] = 'Not Paid';
         $data_invoice_details['Value_Status'] = 2; // not paid
         $data_invoice_details['created_by'] = Auth::user()->name;
-        invoice_detail::where('invoice_id' ,$invoice_id )->update($data_invoice_details);
+        invoice_detail::where('invoice_id', $invoice_id)->update($data_invoice_details);
 
 
         // update invoice_attachment
-        invoice_attachment::where('invoice_id' ,$invoice_id )->update([
-            'invoice_number' =>$request->input('invoice_number')
+        invoice_attachment::where('invoice_id', $invoice_id)->update([
+            'invoice_number' => $request->input('invoice_number')
         ]);
-
-
-
 
 
         session()->flash('edit', 'تم تعديل الفاتورة بنجاح');
@@ -225,10 +227,10 @@ class InvoiceController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Invoice  $invoice
+     * @param \App\Models\Invoice $invoice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request  $request)
+    public function destroy(Request $request)
     {
         $id = $request->invoice_id;
         $invoice = Invoice::where('id', $id)->first();
@@ -241,59 +243,64 @@ class InvoiceController extends Controller
         }
         */
         $invoice->forceDelete(); // delete it from database too
-       // return redirect()->route('invoices')
+        // return redirect()->route('invoices')
 
         return redirect()->route('invoice.list')
-            ->with('delete_invoice' , 'success Deleted Invoice');
+            ->with('delete_invoice', 'success Deleted Invoice');
 
     }
 
-   public function paid_invoices(){
-      //  return $request;
-       $paid_invoices = Invoice::where('Value_Status' , 1)->get();
-       return view('invoices.paid_invoices' , compact('paid_invoices'));
-   }
-
-   public function unpaid_invoices(){
-        $unpaid_invoices = Invoice::where('Value_Status' , 2)->get();
-        return view('invoices.unpaid_invoices' , compact('unpaid_invoices'));
-   }
-
-    public function partially_paid_invoices(){
-       $partially_paid_invoices = Invoice::where('Value_Status' , 3)->get();
-       return view('invoices.partially_paid_invoices' , compact('partially_paid_invoices'));
+    public function paid_invoices()
+    {
+        //  return $request;
+        $paid_invoices = Invoice::where('Value_Status', 1)->get();
+        return view('invoices.paid_invoices', compact('paid_invoices'));
     }
 
-    public function archive_invoice(Request $request){
+    public function unpaid_invoices()
+    {
+        $unpaid_invoices = Invoice::where('Value_Status', 2)->get();
+        return view('invoices.unpaid_invoices', compact('unpaid_invoices'));
+    }
+
+    public function partially_paid_invoices()
+    {
+        $partially_paid_invoices = Invoice::where('Value_Status', 3)->get();
+        return view('invoices.partially_paid_invoices', compact('partially_paid_invoices'));
+    }
+
+    public function archive_invoice(Request $request)
+    {
 
 
-        $invoice = Invoice::where('id' , $request->invoice_id)->first();
+        $invoice = Invoice::where('id', $request->invoice_id)->first();
         $invoice->delete();
         //session()->flash('archive_invoice');
-        return redirect()->route('invoice.list')->with('archive_invoice' , 'success archive invoice');
+        return redirect()->route('invoice.list')->with('archive_invoice', 'success archive invoice');
 
 
-       // return $request;
+        // return $request;
 
 
     }
 
-    // print invoice as a pdf 
+    // print invoice as a pdf
 
-    public function print_invoice($id){
+    public function print_invoice($id)
+    {
         $invoice = Invoice::findOrFail($id);
-        
-        return view('invoices.print_invoice' , [
-            'invoice' => $invoice  ,
+
+        return view('invoices.print_invoice', [
+            'invoice' => $invoice,
         ]);
     }
+
 
     public function getProducts($id)
     {
         $products = Product::where("section_id", $id)->pluck("product_name", "id");
         return response()->json($products);
     }
-
 
 
 }

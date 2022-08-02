@@ -18,7 +18,7 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">الفواتير</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ الفواتير الغير المدفوعة
+                <h4 class="content-title mb-0 my-auto">{{__('Invoice')}}</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ {{__('Unpaid invoice')}}
                 </span>
             </div>
         </div>
@@ -61,7 +61,7 @@
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
                         <a href="{{route('invoice.create')}}" class="modal-effect btn btn-sm btn-primary" style="color:white"><i
-                                class="fas fa-plus"></i>&nbsp; اضافة فاتورة</a>
+                                class="fas fa-plus"></i>&nbsp;{{__('Delete Invoice')}}</a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -70,18 +70,19 @@
                             <thead>
                             <tr>
                                 <th class="border-bottom-0">#</th>
-                                <th class="border-bottom-0">رقم الفاتورة</th>
-                                <th class="border-bottom-0">تاريخ القاتورة</th>
-                                <th class="border-bottom-0">تاريخ الاستحقاق</th>
-                                <th class="border-bottom-0">المنتج</th>
-                                <th class="border-bottom-0">القسم</th>
-                                <th class="border-bottom-0">الخصم</th>
-                                <th class="border-bottom-0">نسبة الضريبة</th>
-                                <th class="border-bottom-0">قيمة الضريبة</th>
-                                <th class="border-bottom-0">الاجمالي</th>
-                                <th class="border-bottom-0">الحالة</th>
-                                <th class="border-bottom-0">ملاحظات</th>
-                                <th class="border-bottom-0">العمليات</th>
+                                <th class="border-bottom-0">{{ __('Invoice Number') }} </th>
+                                <th class="border-bottom-0">{{ __('Invoice Date') }}</th>
+                                <th class="border-bottom-0">{{ __('due date') }}</th>
+                                <th class="border-bottom-0">{{ __('Product') }}</th>
+                                <th class="border-bottom-0">{{ __('Section') }}</th>
+                                <th class="border-bottom-0">{{ __('Amount_collection') }}</th>
+                                <th class="border-bottom-0">{{ __('Discount') }}</th>
+                                <th class="border-bottom-0">{{ __('tax_rate') }}</th>
+                                <th class="border-bottom-0">{{ __('tax_value') }}</th>
+                                <th class="border-bottom-0">{{ __('Total') }}</th>
+                                <th class="border-bottom-0">{{ __('Status') }}</th>
+                                <th class="border-bottom-0">{{ __('Notes') }}</th>
+                                <th class="border-bottom-0">{{ __('operation') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -100,6 +101,7 @@
                                     <td><a
                                             href="{{route('invoice.show' ,  $invoice->id) }}">{{ $invoice->section->section_name }}</a>
                                     </td>
+                                    <td>{{$invoice->Amount_collection}}</td>
                                     <td>{{ $invoice->Discount }}</td>
                                     <td>{{ $invoice->Rate_VAT }}</td>
                                     <td>{{ $invoice->Value_VAT }}</td>
@@ -120,34 +122,35 @@
                                         <div class="dropdown">
                                             <button aria-expanded="false" aria-haspopup="true"
                                                     class="btn ripple btn-primary btn-sm" data-toggle="dropdown"
-                                                    type="button">العمليات<i class="fas fa-caret-down ml-1"></i></button>
+                                                    type="button">{{__('Operations')}}<i class="fas fa-caret-down ml-1"></i></button>
                                             <div class="dropdown-menu tx-13">
                                                 <a class="dropdown-item"
-                                                   href=" {{route('invoice.edit' , $invoice->id) }}">تعديل
-                                                    الفاتورة</a>
+                                                   href=" {{route('invoice.edit' , $invoice->id) }}">
+                                                    {{__('Invoice Update')}}</a>
 
                                                 <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}"
                                                    data-toggle="modal" data-target="#delete_invoice"><i
-                                                        class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;حذف
-                                                    الفاتورة</a>
+                                                        class="text-danger fas fa-trash-alt"></i>&nbsp;&nbsp;
+                                                    {{__('Delete Invoice')}}</a>
 
                                                 <a class="dropdown-item"
                                                    href="{{ route('invoice.status_payment_show', $invoice->id) }}"><i
-                                                        class=" text-success fas fa-money-bill"></i>&nbsp;&nbsp;تغير
-                                                    حالة
-                                                    الدفع</a>
+                                                        class=" text-success fas fa-money-bill"></i>&nbsp;&nbsp;
+                                                    {{__('Change Payment Status')}}
+                                                    </a>
 
                                                 <a class="dropdown-item" href="#" data-invoice_id="{{ $invoice->id }}"
                                                    data-toggle="modal" data-target="#Transfer_invoice"><i
-                                                        class="text-warning fas fa-exchange-alt"></i>&nbsp;&nbsp;نقل الي
-                                                    الارشيف</a>
+                                                        class="text-warning fas fa-exchange-alt"></i>&nbsp;&nbsp;
+                                                    {{__('Archived')}}
+                                                    </a>
 
 
                                                      {{-- Print invoice --}}
-                                                                
+
                                                      <a class="dropdown-item" href="{{ route('invoice.print_invoice' , $invoice->id) }}"><i
-                                                        class="text-success fas fa-print"></i>&nbsp;&nbsp;طباعة
-                                                    الفاتورة
+                                                        class="text-success fas fa-print"></i>&nbsp;&nbsp;
+                                                       {{__('Print Invoice')}}
                                                 </a>
 
                                             </div>
@@ -172,7 +175,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">حذف الفاتورة</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('Delete Invoice')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -181,12 +184,12 @@
                     @csrf
                 </div>
                 <div class="modal-body">
-                    هل انت متاكد من عملية الحذف ؟
+                    {{__('Are you sure to Delete ?')}}
                     <input type="hidden" name="invoice_id" id="invoice_id" value="">
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
-                    <button type="submit" class="btn btn-danger">تاكيد</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancle')}}</button>
+                    <button type="submit" class="btn btn-danger">{{__('Confirm')}}</button>
                 </div>
                 </form>
             </div>
@@ -198,7 +201,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">ارشفة الفاتورة</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('Archived')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -207,14 +210,14 @@
                     @csrf
                 </div>
                 <div class="modal-body">
-                    هل انت متاكد من عملية الارشفة ؟
+                    {{__('Are you sure about the archiving process?')}}
                     <input type="hidden" name="invoice_id" id="invoice_id" value="">
 
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
-                    <button type="submit" class="btn btn-success">تاكيد</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancle')}}</button>
+                    <button type="submit" class="btn btn-success">{{__('Confirm')}}</button>
                 </div>
                 </form>
             </div>

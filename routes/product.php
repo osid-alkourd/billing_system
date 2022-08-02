@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => '/product',
     'as' => 'product.',
-    'middleware' => ['auth'],
+    'middleware' => ['auth' ,  'locale'],
 ] , function(){
 
     Route::get('/' , [ProductController::class  , 'index'])->name('list');

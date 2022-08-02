@@ -16,9 +16,8 @@ Route::get('/invoice', function () {
 Route::group([
     'prefix' => '/invoice',
     'as' => 'invoice.',
-    'middleware' => ['auth'],
+    'middleware' => ['auth' , 'locale'],
 ] , function(){
-
     Route::get('/' , [InvoiceController::class, 'index'])->name('list');
     Route::post('/store' , [InvoiceController::class , 'store'])->name('store');
     Route::get('/create' , [InvoiceController::class , 'create'])->name('create');
@@ -45,8 +44,7 @@ Route::group([
 Route::group([
     'prefix' => '/Archived_invoices',
     'as' => 'Archived_invoices.',
-    'middleware' => ['auth'],
-
+    'middleware' => ['auth' ,  'locale'],
 ]  , function(){
     Route::get('/' , [ArchiveController::class, 'index'])->name('list');
     Route::put('/update' , [ArchiveController::class, 'update'])->name('update'); // delete archive and move it to invoice list (restore invoice)

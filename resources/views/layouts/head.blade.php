@@ -9,11 +9,25 @@
 <!--  Sidebar css -->
 <link href="{{URL::asset('assets/plugins/sidebar/sidebar.css')}}" rel="stylesheet">
 <!-- Sidemenu css -->
+@if(App::isLocale('ar'))
 <link rel="stylesheet" href="{{URL::asset('assets/css-rtl/sidemenu.css')}}">
-@yield('css')
+@else
+<link rel="stylesheet" href="{{URL::asset('assets/css/sidemenu.css')}}">
+@endif
+
+    @yield('css')
 <!--- Style css -->
+
+@if(App::isLocale('ar'))
 <link href="{{URL::asset('assets/css-rtl/style.css')}}" rel="stylesheet">
 <!--- Dark-mode css -->
 <link href="{{URL::asset('assets/css-rtl/style-dark.css')}}" rel="stylesheet">
 <!---Skinmodes css-->
 <link href="{{URL::asset('assets/css-rtl/skin-modes.css')}}" rel="stylesheet">
+@else
+<link href="{{URL::asset('assets/css/style.css')}}" rel="stylesheet">
+<!--- Dark-mode css -->
+<link href="{{URL::asset('assets/css/style-dark.css')}}" rel="stylesheet">
+<!---Skinmodes css-->
+<link href="{{URL::asset('assets/css/skin-modes.css')}}" rel="stylesheet">
+@endif

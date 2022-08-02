@@ -24,7 +24,7 @@ Route::get('/test',  [InvoiceController::class , 'test']);
 
 Route::get('/dashboard', function () {
     return view('index');
-})->middleware(['auth'])->name('dashboard');
+})->middleware(['auth' ,  'locale'])->name('dashboard');
 
 
 /*
@@ -40,7 +40,7 @@ Route::get('/home', function () {
 
 Route::get('/mod', function () {
     return view('modals');
-})->middleware(['auth'])->name('home');
+})->middleware(['auth' ,  'locale'])->name('home');
 
 
 require __DIR__.'/auth.php';
