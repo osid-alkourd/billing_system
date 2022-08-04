@@ -27,7 +27,7 @@ class PermissionTableSeeder extends Seeder
             'customer Report',
             'users',
             'users list',
-            'users permissions',
+            'users roles',
             'setting',
             'products',
             'sections',
@@ -46,10 +46,10 @@ class PermissionTableSeeder extends Seeder
             'update user',
             'delete user',
 
-            'show permissions',
-            'add permission',
-            'update permission',
-            'delete permission',
+            'show roles',
+            'add roles',
+            'update roles',
+            'delete roles',
 
             'add product',
             'update product',
