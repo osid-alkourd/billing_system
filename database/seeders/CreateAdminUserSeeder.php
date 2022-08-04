@@ -27,7 +27,7 @@ class CreateAdminUserSeeder extends Seeder
 
         $permissions = Permission::pluck('id','id')->all(); // all permissions
 
-        $role->syncPermissions($permissions); // assign all permissions to owner role
+        $role->syncPermissions($permissions); // assign all permissions to this role
 
         $user->assignRole([$role->id]); //assign this user to owner role
     }
