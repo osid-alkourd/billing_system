@@ -119,15 +119,15 @@
                                                                          data-dismiss="modal" type="button"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <form action="{{ route('users.destroy', 'test') }}" method="post">
-                        {{ method_field('delete') }}
-                        {{ csrf_field() }}
+                        @method('delete')
+                        @csrf
                         <div class="modal-body">
                             <p>{{__('Are you sure to Delete ?')}}</p><br>
                             <input type="hidden" name="user_id" id="user_id" value="">
                             <input class="form-control" name="username" id="username" type="text" readonly>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('cancle')}}</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">{{__('Cancle')}}</button>
                             <button type="submit" class="btn btn-danger">{{__('Confirm')}}</button>
                         </div>
                 </div>

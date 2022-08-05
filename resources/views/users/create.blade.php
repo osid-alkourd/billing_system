@@ -50,7 +50,7 @@
                     </div><br>
                     <form class="parsley-style-1" id="selectForm2" autocomplete="off" name="selectForm2"
                           action="{{route('users.store')}}" method="post">
-                        {{csrf_field()}}
+                            @csrf
 
                         <div class="">
 
