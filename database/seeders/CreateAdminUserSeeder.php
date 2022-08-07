@@ -15,6 +15,7 @@ class CreateAdminUserSeeder extends Seeder
      */
     public function run()
     {
+        /*
         $user = User::create([
             'name' => 'osid alkourd',
             'email' => 'alkordosid73@gmail.com',
@@ -22,13 +23,24 @@ class CreateAdminUserSeeder extends Seeder
             'roles_name' => ["owner"],
             'Status' => 'active',
         ]);
+        */
 
-        $role = Role::create(['name' => 'owner']);
+
+        $user2 = User::create([
+            'name' => 'mohab alkourd',
+            'email' => 'alkordmohab73@gmail.com',
+            'password' => bcrypt('osidosid'),
+            'roles_name' => ["owner"],
+            'Status' => 'active',
+        ]);
+
+        $role = Role::create(['name' => 'super-admin']);
 
         $permissions = Permission::pluck('id','id')->all(); // all permissions
 
         $role->syncPermissions($permissions); // assign all permissions to this role
 
-        $user->assignRole([$role->id]); //assign this user to owner role
+      //  $user->assignRole([$role->id]); //assign this user to owner role
+        $user2->assignRole([$role->id]);
     }
 }
