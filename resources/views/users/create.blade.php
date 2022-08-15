@@ -58,13 +58,13 @@
                                 <div class="parsley-input col-md-6" id="fnWrapper">
                                     <label>{{__('user name')}}: <span class="tx-danger">*</span></label>
                                     <input class="form-control form-control-sm mg-b-20"
-                                           data-parsley-class-handler="#lnWrapper" name="name" required="" type="text">
+                                           data-parsley-class-handler="#lnWrapper" name="name"  type="text">
                                 </div>
 
                                 <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
                                     <label>{{__('email')}}: <span class="tx-danger">*</span></label>
                                     <input class="form-control form-control-sm mg-b-20"
-                                           data-parsley-class-handler="#lnWrapper" name="email" required="" type="email">
+                                           data-parsley-class-handler="#lnWrapper" name="email" type="email">
                                 </div>
                             </div>
 
@@ -74,13 +74,13 @@
                             <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
                                 <label>{{__('password')}}: <span class="tx-danger">*</span></label>
                                 <input class="form-control form-control-sm mg-b-20" data-parsley-class-handler="#lnWrapper"
-                                       name="password" required="" type="password">
+                                       name="password" type="password">
                             </div>
 
                             <div class="parsley-input col-md-6 mg-t-20 mg-md-t-0" id="lnWrapper">
                                 <label>{{__('confirm password')}}: <span class="tx-danger">*</span></label>
                                 <input class="form-control form-control-sm mg-b-20" data-parsley-class-handler="#lnWrapper"
-                                       name="confirm-password" required="" type="password">
+                                       name="confirm-password"  type="password">
                             </div>
                         </div>
 
@@ -89,7 +89,7 @@
                                 <label class="form-label">{{__('user status')}}</label>
                                 <select name="Status" id="select-beast" class="form-control  nice-select  custom-select">
                                     <option value="active">{{__('active')}}</option>
-                                    <option value="not active"></option>
+                                    <option value="not active">{{__('not active')}}</option>
                                 </select>
                             </div>
                         </div>
@@ -102,6 +102,18 @@
                                 </div>
                             </div>
                         </div>
+
+                    <div class="row mg-b-20">
+                        <div class="form-check">
+                            <p class="font-weight-bold"> {{__('user Permissions')}}</p>
+                            <div>
+                               @foreach ($permissions as $permission )
+                                 {{ $permission->name }} 	&nbsp; 	&nbsp; 	&nbsp; 	 <input class="form-check-input" type="checkbox" name="user_permissions[]" value="{{ $permission->id }}" id="flexCheckChecked"> &nbsp;
+                               @endforeach
+                            </div>
+                      </div>
+                    </div>  
+                        
                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                             <button class="btn btn-main-primary pd-x-20" type="submit">{{__('Confirm')}}</button>
                         </div>

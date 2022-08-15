@@ -6,6 +6,8 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -20,28 +22,33 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('name','name')->all();
-
-        return view('users.create',compact('roles'));
+        $permissions = Permission::all();
+        return view('users.create',compact('roles' , 'permissions'));
 
     }
 
 
     public function store(Request $request)
     {
-        $this->validate($request, [
+        
+       $validator =  $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|same:confirm-password',
-            'roles_name' => 'required'
+           
         ]);
-
         $input = $request->all();
-
-
         $input['password'] = Hash::make($input['password']);
-
-        $user = User::create($input);
-        $user->assignRole($request->input('roles_name'));
+        $user = null;
+        if($request->input('roles_name')){
+            $user = User::create($input);
+            $user->assignRole($request->input('roles_name'));
+        }else if($request->input('user_permissions')){
+             $user = User::create($input);
+             $user->givePermissionTo($request->input('user_permissions'));  
+        }else {
+            return back()->withErrors(['roles_name.required', 'role name or permission is required']);    
+        }
         return redirect()->route('users.index')
             ->with('success','تم اضافة المستخدم بنجاح');
     }
@@ -49,16 +56,18 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         return view('users.show',compact('user'));
     }
 
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
-        return view('users.edit',compact('user','roles','userRole'));
+        $permissions = Permission::all();
+        $permissions_id = $user->permissions->pluck('id')->toArray();
+        return view('users.edit',compact('user','roles','userRole' , 'permissions_id' , 'permissions'));
     }
 
 
@@ -67,26 +76,34 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'same:confirm-password',
-            'roles' => 'required'
+            
         ]);
         $input = $request->all();
-        if(!empty($input['password'])){
-            $input['password'] = Hash::make($input['password']);
-        }else{
-            $input = array_except($input,array('password'));
+      
+        $user = User::findOrFail($id);
+        if($request->input('roles_name')){
+            $user->update($input);
+            DB::table('model_has_roles')->where('model_id',$id)->delete();
+            DB::table('model_has_permissions')->where('model_id',$id)->delete();
+            $user->assignRole($request->input('roles_name'));
         }
-        $user = User::find($id);
-        $user->update($input);
-        DB::table('model_has_roles')->where('model_id',$id)->delete();
-        $user->assignRole($request->input('roles'));
+        else if($request->input('user_permissions')){
+            $user->update($input);
+            DB::table('model_has_permissions')->where('model_id',$id)->delete();
+            DB::table('model_has_roles')->where('model_id',$id)->delete();
+            $user->givePermissionTo($request->input('user_permissions'));  
+        }
+        else{
+            return back()->withErrors(['roles_name.required', 'role name or permission is required']);    
+        }
+      
         return redirect()->route('users.index')
-            ->with('success','تم تحديث معلومات المستخدم بنجاح');
+            ->with('success','success updated user infromation');
     }
 
     public function destroy(Request $request)
     {
-        User::find($request->user_id)->delete();
+        User::findOrFail($request->user_id)->delete();
         return redirect()->route('users.index')->with('success','تم حذف المستخدم بنجاح');
     }
 

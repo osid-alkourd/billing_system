@@ -5,7 +5,7 @@
     <!--Internal  treeview -->
     <link href="{{URL::asset('assets/plugins/treeview/treeview-rtl.css')}}" rel="stylesheet" type="text/css" />
     @section('title')
-         {{__('Add roles')}}
+         {{__('Add Permission')}}
     @stop
 
 @endsection
@@ -14,8 +14,8 @@
     <div class="breadcrumb-header justify-content-between">
         <div class="my-auto">
             <div class="d-flex">
-                <h4 class="content-title mb-0 my-auto">{{__('roles')}}</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ {{__('Add')}}
-                 {{__('user type')}}</span>
+                <h4 class="content-title mb-0 my-auto">{{__('permissions')}}</h4><span class="text-muted mt-1 tx-13 mr-2 mb-0">/ {{__('Add')}}
+                    {{__('permissions')}}</span>
             </div>
         </div>
     </div>
@@ -41,7 +41,7 @@
 
 
 
-    {!! Form::open(array('route' => 'roles.store','method'=>'POST')) !!}
+    {!! Form::open(array('route' => 'permissions.store','method'=>'POST')) !!}
     <!-- row -->
     <div class="row">
         <div class="col-md-12">
@@ -50,37 +50,44 @@
                     <div class="main-content-label mg-b-5">
                         <div class="col-xs-7 col-sm-7 col-md-7">
                             <div class="form-group">
-                                <p>{{__('role Name')}} :</p>
+                                <p>{{__('Permissions Name')}} :</p>
                                 {!! Form::text('name', null, array('class' => 'form-control')) !!}
                             </div>
                         </div>
                     </div>
+                        <div class="col-xs-7 col-sm-7 col-md-7">
+                            <div class="form-group">
+                               <span>{{__('is_parent')}}: </span> &nbsp;
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadioInline1" name="is_parent" class="custom-control-input" value="1">
+                                    <label class="custom-control-label" for="customRadioInline1">{{ __('Yes') }}</label>
+                                </div>
+                                 <div class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" id="customRadioInline2" name="is_parent" class="custom-control-input" value="0">
+                                    <label class="custom-control-label" for="customRadioInline2">{{ __('No') }}</label>
+                                 </div>
+                            </div>
+                        </div>
+
+                    <br><br>
+                 <div class="col-xs-7 col-sm-7 col-md-7">
+                    <div class="form-group">
+                        <p>{{ __('Choice Parent') }}</p>
+                        <select name="parent_id" class="custom-select custom-select-sm" >
+                            $parent
+                           @foreach ( $permissions as $permission )
+                            <option value="{{ $permission->id }}">{{ $permission->name }}</option>
+                           @endforeach
+                        </select>
+                    </div>
+                </div>   
                     
                     <div class="row">
                         <!-- col -->
-                        <div class="col-lg-4">
-                            <ul id="treeview1">
-                                <li><a href="#">{{__('roles')}}</a>
-                                    <ul>
-                                        </li>
-                                        @foreach($permission as $value)
-                                            <label
-                                                style="font-size: 16px;">{{ Form::checkbox('permission[]', $value->id, false, array('class' => 'name')) }}
-                                                {{ $value->name }}</label>
-
-                                            @endforeach
-                                            </li>
-
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- /col -->
                         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                             <button type="submit" class="btn btn-main-primary">{{__('Confirm')}}</button>
                         </div>
-
-                    </div>
+                   </div>
                 </div>
             </div>
         </div>

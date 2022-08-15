@@ -59,6 +59,13 @@
         </script>
     @endif
 
+
+    @if(session('success'))
+			<div class="alert alert-success">
+				{{ session('success') }}
+			</div>
+	@endif
+
     <!-- row -->
     <div class="row row-sm">
         <div class="col-xl-12">
@@ -68,7 +75,7 @@
                         <div class="col-lg-12 margin-tb">
                             <div class="pull-right">
                                 @can('add roles')
-                                    <a class="btn btn-primary btn-sm" href="{{ route('roles.create') }}">{{__('add')}}</a>
+                                    <a class="btn btn-primary btn-sm" href="{{ route('permissions.create') }}">{{__('add')}}</a>
                                 @endcan
                             </div>
                         </div>
@@ -83,34 +90,32 @@
                             <tr>
                                 <th>#</th>
                                 <th>{{__('name')}}</th>
+                                <th>{{ __('parent') }}</th>
                                 <th>{{__('Oprerations')}}</th>
                             </tr>
                             </thead>
                             <tbody>
                             {{$i = 0}}
-                            @foreach ($roles as $key => $role)
+                            @foreach ($permissions as $permission)
                                 <tr>
                                     <td>{{ ++$i }}</td>
-                                    <td>{{ $role->name }}</td>
+                                    <td>{{ $permission->name }}</td>
+                                    <td>{{ $permission->parent_name }}</td>
                                     <td>
-                                        @can('show roles')
+                                     
                                             <a class="btn btn-success btn-sm"
-                                               href="{{ route('roles.show', $role->id) }}">{{__('show')}}</a>
-                                        @endcan
+                                               href="{{ route('permissions.show', $permission->id) }}">{{__('show')}}</a>
+                                       
 
-                                        @can('update roles')
+                                        
                                             <a class="btn btn-primary btn-sm"
-                                               href="{{ route('roles.edit', $role->id) }}">{{__('update')}}</a>
-                                        @endcan
-
-                                        @if ($role->name === 'super-admin')
-                                            @can('delete roles')
-                                                {!! Form::open(['method' => 'DELETE', 'route' => ['roles.destroy',
-                                                $role->id], 'style' => 'display:inline']) !!}
+                                               href="{{ route('permissions.edit', $permission->id) }}">{{__('update')}}</a>
+                        
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['permissions.destroy',
+                                               $permission->id], 'style' => 'display:inline']) !!}
                                                 {!! Form::submit('delete', ['class' => 'btn btn-danger btn-sm']) !!}
                                                 {!! Form::close() !!}
-                                            @endcan
-                                        @endif
+                                           
 
 
                                     </td>
@@ -118,8 +123,11 @@
                             @endforeach
                             </tbody>
                         </table>
+                        {{$permissions->links() }}
                     </div>
                 </div>
+                
+
             </div>
         </div>
         <!--/div-->
