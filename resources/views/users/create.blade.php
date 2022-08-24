@@ -107,9 +107,23 @@
                         <div class="form-check">
                             <p class="font-weight-bold"> {{__('user Permissions')}}</p>
                             <div>
-                               @foreach ($permissions as $permission )
-                                 {{ $permission->name }} 	&nbsp; 	&nbsp; 	&nbsp; 	 <input class="form-check-input" type="checkbox" name="user_permissions[]" value="{{ $permission->id }}" id="flexCheckChecked"> &nbsp;
+                              <ul>
+                               @foreach ($parent_permissions as $parent_permission)
+                               {{--   @if($permission->parent_id == null)--}}
+                               
+                                <li id='parenPermissions_id'> {{ $parent_permission->name }} 	&nbsp; 	&nbsp; 	&nbsp; 	 <input class="form-check-input parent" type="checkbox" name="user_permissions[]" value="{{$parent_permission->id }}"> &nbsp; </li>
+                                <ul>
+                                     <br>
+                                     @foreach ($permissions as $permission)
+                                         @if($permission->parent_id == $parent_permission->id )
+                                         <li> {{$permission->name }} 	&nbsp; 	&nbsp; 	&nbsp; 	 <input class="form-check-input child" type="checkbox" name="user_permissions[]" value="{{$permission->id }}"   data-parentPermission="{{ $parent_permission->id  }}"  id="flexCheckChecked"> &nbsp; </li>
+                                         <br>
+                                         @endif
+                                     @endforeach
+                                     <br><br>
+                                </ul>
                                @endforeach
+                              </ul>   
                             </div>
                       </div>
                     </div>  
@@ -139,4 +153,14 @@
     <script src="{{URL::asset('assets/plugins/parsleyjs/parsley.min.js')}}"></script>
     <!-- Internal Form-validation js -->
     <script src="{{URL::asset('assets/js/form-validation.js')}}"></script>
+    <script>
+      $('input.parent').on('change', function(){
+        var id = $(this).val();
+        if($(this).is(':checked')){
+            $('.child[data-parentPermission |="'+id+'"]').attr('checked', true);
+        }else{
+            $('.child[data-parentPermission |="'+id+'"]').attr('checked', false);
+        }
+        })
+    </script>
 @endsection

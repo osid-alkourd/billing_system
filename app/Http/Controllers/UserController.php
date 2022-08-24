@@ -21,9 +21,10 @@ class UserController extends Controller
 
     public function create()
     {
-        $roles = Role::pluck('name','name')->all();
+        $roles = Role::pluck('name','name')->all(); 
+        $parent_permissions = Permission::where('parent_id' , '=' , null)->get();
         $permissions = Permission::all();
-        return view('users.create',compact('roles' , 'permissions'));
+        return view('users.create',compact('roles' , 'permissions' , 'parent_permissions'));
 
     }
 
@@ -65,9 +66,10 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
+        $parent_permissions = Permission::where('parent_id' , '=' , null)->get();
         $permissions = Permission::all();
         $permissions_id = $user->permissions->pluck('id')->toArray();
-        return view('users.edit',compact('user','roles','userRole' , 'permissions_id' , 'permissions'));
+        return view('users.edit',compact('user','roles','userRole' , 'permissions_id' , 'permissions' , 'parent_permissions'));
     }
 
 
