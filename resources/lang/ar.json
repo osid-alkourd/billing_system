@@ -51,8 +51,6 @@
     "Change Payment Status" : "تغير حالة الدفع" ,
     "Archived": "نقل الى الارشيف" ,
     "Print Invoice" : " طباعة الفاتورة" ,
-    "Invoice" : "الفاتورة" ,
-    "Select Section" : "حدد القسم" ,
     "Commission_amount" : "مبلغ العمولة" ,
     "invoices" : "الفواتير" ,
     "Move to invoice" : "نقل الى الفواتير",
@@ -85,10 +83,8 @@
     "Submit" : "ارسال" ,
     "Update Section" : "تعديل قسم" ,
     "Delete Section" : "حذف قسم",
-    "Select Section" : "حدد قسم"
-
-
-
-
+    "Select Section" : "حدد قسم" , 
+    "section" : "القسم"
+   
 }
 
