@@ -86,8 +86,12 @@ class InvoiceController extends Controller
         }
 
 
+        
+       // $user = DB::table('users')->whereJsonContains('roles_name' , ['owner'])->get();
+       $user = User::whereJsonContains('roles_name' , 'owner')->get();
 
-
+       // $user->(new AddInvoice($invoice));        
+        Notification::send($user , new AddInvoice($invoice));
         return redirect()->route('invoice.create')->
         with('success', 'Invoices Success Added');
 

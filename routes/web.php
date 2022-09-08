@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InvoiceController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +44,16 @@ Route::get('/mod', function () {
     return view('modals');
 })->middleware(['auth' ,  'locale'])->name('home');
 
+
+
+Route::get('/try' , function(Request $request){
+
+    //$user = DB::table('users')->whereJsonContains('roles_name' , 'owner')->get();
+
+    $user = $request->user();
+   //return dd($user);
+
+});
 
 require __DIR__.'/auth.php';
 require __DIR__.'/invoice.php';
