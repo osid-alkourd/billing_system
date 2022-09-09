@@ -110,19 +110,18 @@
 							<div class="modal-body">
 							 <form action="{{ route('section.store')}}" method="post">
 								@csrf
-								<div class="form-group" style="text-align: left;">
+								<div class="form-group" >
 									<label for="section_name" >{{__('Section Name')}}</label>
 									<input type="text" class="form-control" id="section_name" name="section_name">
 								</div>
 
-								<div class="mb-3" style="text-align: left;">
+								<div class="mb-3" >
 									<label for="description" class="form-label">{{__('Any Notes')}}</label>
 									<textarea class="form-control" id="description" name="description" rows="3"></textarea>
 								</div>
 								<div class="modal-footer">
 									<button class="btn ripple btn-secondary" data-dismiss="modal" type="button">{{__('Close')}}</button>
 									<button class="btn ripple btn-primary" type="submit">{{__('Submit')}}</button>
-
 								</div>
 						     </form>
 							</div>
@@ -139,7 +138,7 @@
 			   <div class="modal-dialog" role="document">
 				   <div class="modal-content">
 					   <div class="modal-header" >
-						   <h5 class="modal-title" id="exampleModalLabel" style="text-align: left;">{{__('Update Section')}}</h5>
+						   <h5 class="modal-title" id="exampleModalLabel">{{__('Update Section')}}</h5>
 						   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							   <span aria-hidden="true">&times;</span>
 						   </button>
@@ -150,12 +149,12 @@
 
 						     	@csrf
 								@method('PUT')
-							   <div class="form-group" style="text-align: left;">
+							   <div class="form-group">
 								   <input type="hidden" name="id" id="id" value="">
 								   <label for="recipient-name" class="col-form-label">{{__('Section Name')}}</label>
 								   <input class="form-control" name="section_name" id="section_name" type="text">
 							   </div>
-							   <div class="form-group" style="text-align: left;">
+							   <div class="form-group">
 								   <label for="message-text" class="col-form-label">{{__('Notes')}}</label>
 								   <textarea class="form-control" id="description" name="description"></textarea>
 							   </div>
@@ -181,7 +180,7 @@
 						@csrf
 						@method('delete')
 
-						<div class="modal-body" style="text-align: left;">
+						<div class="modal-body">
 							<p>{{__('Are you sure to Delete ?')}}</p><br>
 							<input type="hidden" name="id" id="id" value="">
 							<input class="form-control" name="section_name" id="section_name" type="text" readonly>
@@ -239,7 +238,7 @@
 		var button = $(event.relatedTarget)
 		var id = button.data('id')
 		var section_name = button.data('section_name')
-		var modal = $(this)
+		var modal = $(this) // OR Replace With => var modal = $('#modaldemo9')
 		modal.find('.modal-body #id').val(id);
 		modal.find('.modal-body #section_name').val(section_name);
 	})

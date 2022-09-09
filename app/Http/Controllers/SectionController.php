@@ -87,7 +87,7 @@ class SectionController extends Controller
         //$validation = $request->validated();
         $request->validate([
           //  'section_name' => 'required|max:50|unique:sections,section_name,'.$id ,
-          'section_name' => ['required' , 'max:50' , 'unique:sections,section_name,'.$id],
+           'section_name' => ['required' , 'max:50' , 'unique:sections,section_name,'.$id],
             'description' => 'required' , 
         ]);
         $section = Section::findOrFail($id);
