@@ -21,7 +21,15 @@ class InvoiceController extends Controller
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
+     * 
      */
+
+     protected  $taxes = [
+        '5%' => 5 , 
+        '10%' => 10 , 
+        '15%' => 15 , 
+        '20' => 20 , 
+    ];
     public function index()
     {
         $invoices = Invoice::all();
@@ -38,8 +46,10 @@ class InvoiceController extends Controller
     public function create()
     {
         $sections = Section::all();
+       
         return view('invoices.add_invoice', [
             'sections' => $sections,
+            'taxes' => $this->taxes , 
         ]);
     }
 
@@ -51,6 +61,8 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
+        
+        $this->requestValidation($request);
         $data_invoice = $request->except('Section');
         $data_invoice['section_id'] = $request->input('Section');
         $data_invoice['Status'] = 'not paid';
@@ -199,6 +211,8 @@ class InvoiceController extends Controller
      */
     public function update(Request $request)
     {
+         // invoice id
+        $this->requestValidation($request);
         // invoice id
         $invoice_id = $request->invoice_id;
         // $invoice_number = $request->input('invoice_number');
@@ -306,5 +320,23 @@ class InvoiceController extends Controller
         return response()->json($products);
     }
 
-
+    
+    public function requestValidation(Request $request){
+        $invoice_id = $request->invoice_id;
+        $request->validate([
+            'invoice_number' => ['required' , 'max:50' , 'unique:invoices,invoice_number,'.$invoice_id] , 
+            'invoice_Date' => ['required'] , 
+            'Due_date' => ['required'] , 
+            'Section' => ['required'] , 
+            'product' => ['required']  , 
+            'Amount_collection' => ['required' , 'numeric' , 'max:99999999' , 'min:0'] , 
+            'Amount_Commission' => ['required' , 'numeric' , 'max:99999999' , 'min:0'] ,
+            'Discount' => ['required' , 'numeric', 'max:99999999' , 'min:0'] , 
+            'Value_VAT' =>  ['required' , 'numeric','numeric', 'max:99999999' , 'min:0'] , 
+            'Rate_VAT' => ['required' , 'max:999'] , 
+            'Total' => ['required' , 'numeric','max:999999999' , 'min:0'] , 
+           // 'Status' =>  ['required' ,'max:8']
+ 
+         ]);
+    }
 }

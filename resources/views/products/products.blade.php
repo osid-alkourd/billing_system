@@ -50,7 +50,6 @@
                                     <th class="border-bottom-0">{{__('Section Name')}}</th>
                                     <th class="border-bottom-0">{{__('Notes')}}</th>
                                     <th class="border-bottom-0">{{__('Operations')}}</th>
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -98,7 +97,7 @@
                     <form action="{{ route('product.store') }}" method="post">
                         @csrf
                         <div class="modal-body">
-                            <div class="form-group" style="text-align: left;">
+                            <div class="form-group">
                                 <label for="exampleInputEmail1">{{__('Product Name')}}</label>
                                 <input type="text" class="form-control" id="product_name" name="product_name" required>
 
@@ -113,7 +112,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group" style="text-align: left;">
+                            <div class="form-group">
                                 <label for="exampleFormControlTextarea1">{{__('Notes')}}</label>
                                 <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                             </div>
@@ -145,7 +144,7 @@
                         @csrf
                         <div class="modal-body">
 
-                            <div class="form-group" style="text-align: left;">
+                            <div class="form-group">
                                 <label for="title">{{__('Product Name')}}</label>
 
                                 <input type="hidden" class="form-control" name="pro_id" id="pro_id"

@@ -36,9 +36,22 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-    @endif
-
-    <!-- row -->
+   @endif
+        @if ($errors->any())
+        <div class="alert alert-danger">
+             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+           
+        </div>
+       @endif    
+        
+     <!-- row -->
     <div class="row">
 
         <div class="col-lg-12 col-md-12">
@@ -92,8 +105,7 @@
 
                             <div class="col">
                                 <label for="inputName" class="control-label">{{ __('Amount_collection') }} </label>
-                                <input type="text" class="form-control" id="inputName" name="Amount_collection"
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+                                <input type="text" class="form-control" id="inputName" name="Amount_collection">
                             </div>
                         </div>
 
@@ -105,26 +117,25 @@
                             <div class="col">
                                 <label for="inputName" class="control-label">{{ __('Commission_amount') }}</label>
                                 <input type="text" class="form-control form-control-lg" id="Amount_Commission"
-                                    name="Amount_Commission" title="يرجي ادخال مبلغ العمولة "
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                                    required>
+                                    name="Amount_Commission" title="يرجي ادخال مبلغ العمولة "    required>
                             </div>
 
                             <div class="col">
                                 <label for="inputName" class="control-label">{{ __('Discount') }}</label>
                                 <input type="text" class="form-control form-control-lg" id="Discount" name="Discount"
                                     title="يرجي ادخال مبلغ الخصم "
-                                    oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
                                     value=0 required>
                             </div>
 
                             <div class="col">
                                 <label for="inputName" class="control-label"> {{ __('tax_rate') }}</label>
-                                <select name="Rate_VAT" id="Rate_VAT" class="form-control" onchange="myFunction()">
+                                <select name="Rate_VAT" id="Rate_VAT" class="form-control" onchange="calculateTotal()">
                                     <!--placeholder-->
                                     <option value="" selected disabled>حدد نسبة الضريبة</option>
-                                    <option value=" 5%">5%</option>
-                                    <option value="10%">10%</option>
+                                    @foreach ($taxes as $tax => $value )
+                                        <option value="{{$value }}">{{$tax}}</option>
+                                    @endforeach
+                                    
                                 </select>
                             </div>
 
@@ -221,7 +232,7 @@
                         url: "{{ URL::to('section') }}/" + SectionId,
                         type: "GET",
                         dataType: "json",
-                        success: function(data) {
+                        success: function(data) { // this function executed when request succeeds
                             $('select[name="product"]').empty();
                             $.each(data, function(key, value) {
                                 $('select[name="product"]').append('<option value="' +
@@ -241,24 +252,37 @@
 
 
     <script>
-        function myFunction() {
+        function calculateTotal() {
 
-            var Amount_Commission = parseFloat(document.getElementById("Amount_Commission").value);
-            var Discount = parseFloat(document.getElementById("Discount").value);
-            var Rate_VAT = parseFloat(document.getElementById("Rate_VAT").value);
-            var Value_VAT = parseFloat(document.getElementById("Value_VAT").value);
+            var commissionAmount = parseFloat(document.getElementById("Amount_Commission").value);
+            var discount = parseFloat(document.getElementById("Discount").value);
+            var rate_vat = parseFloat(document.getElementById("Rate_VAT").value);
+            var value_vat = parseFloat(document.getElementById("Value_VAT").value);
+            var commissionAmount_after_discount = commissionAmount - discount;
+            var taxValue = parseFloat(commissionAmount_after_discount * rate_vat / 100); // tax value
+            var total_including_tax = parseFloat(taxValue + commissionAmount_after_discount); // tax value + commiction ammount after discount
+            document.getElementById("Value_VAT").value = taxValue; // tax value
+            document.getElementById("Total").value = total_including_tax;
 
-            var Amount_Commission2 = Amount_Commission - Discount;
-
-
-            if (typeof Amount_Commission === 'undefined' || !Amount_Commission) {
+            /*
+            if (typeof commissionAmount === 'undefined' || !commissionAmount) {
 
                 alert('يرجي ادخال مبلغ العمولة ');
 
             } else {
-                var intResults = Amount_Commission2 * Rate_VAT / 100; // tax value
+                var taxValue = parseFloat(commissionAmount_after_discount * rate_vat / 100); // tax value
+                var total_including_tax = parseFloat(taxValue + commissionAmount_after_discount); // tax value + commiction ammount after discount
+                document.getElementById("Value_VAT").value = taxValue; // tax value
+                document.getElementById("Total").value = total_including_tax;
 
-                var intResults2 = parseFloat(intResults + Amount_Commission2); // tax value + commiction ammount after discount
+            }
+            */
+
+        }
+/*
+        var intResults = commissionAmount_after_discount * rate_vat / 100; // tax value
+
+                var intResults2 = parseFloat(intResults + commissionAmount_after_discount); // tax value + commiction ammount after discount
 
                 sumq = parseFloat(intResults).toFixed(2);
 
@@ -267,11 +291,7 @@
                 document.getElementById("Value_VAT").value = sumq; // tax value
 
                 document.getElementById("Total").value = sumt;
-
-            }
-
-        }
-
+*/
     </script>
 
 

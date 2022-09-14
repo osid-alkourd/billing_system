@@ -51,9 +51,7 @@ Route::group([
     Route::delete('/delete' , [ArchiveController::class , 'destroy'])->name('delete');
 });
 
- Route::get('/section/{id}' , [InvoiceController::class , 'getProducts'])
- ->middleware(['auth']);
-
+ 
 
 
 require __DIR__.'/auth.php';

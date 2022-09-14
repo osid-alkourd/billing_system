@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SectionController;
+use App\Http\Controllers\InvoiceController;
 
 
 /*
@@ -21,6 +22,9 @@ Route::group([
     Route::delete('/delete' , [SectionController::class , 'destroy'])->name('delete');
 });
 
+
+Route::get('/section/{id}' , [InvoiceController::class , 'getProducts'])
+ ->middleware(['auth']);
 
 
 require __DIR__.'/auth.php';
